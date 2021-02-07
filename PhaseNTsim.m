@@ -58,12 +58,18 @@
 % modulations of luminance and chromatic signals, the isoresponse contour
 % will be closer to the origin for the 0 and 180° phases than the 90 and
 % 270° phases.
+%
+% Note, the predictions from the energy model hold for any
+% combination of cone weights and stimuli, provided the projections of 
+% the stimuli span the plane defined by the two sets of cone weights.
+% We do not need to assume that the neurons is tuned for and particular
+% color directions.
 
-
-coneweights = [3 1 0; -1 1 0]; % cone weights of two linear mechanisms that combine to create a color-complex cell
-stimcc = [1 1 0;.1 -.1 0]; % two stimuli parametrically shifted in relative phase
+coneweights = [3 1 0; 10 -10 0 ]; % cone weights of two linear mechanisms that combine to create a color-complex cell
+stimcc = [1 1 1;.1 -.1 0]; % two stimuli parametrically shifted in relative phase
 %stimcc = unifrnd(-1,1,2,3);
 %stimcc*coneweights' % checking how strongly each stimulus acts on each mechanism
+
 
 if rank(coneweights') == 1
    disp('neuron is only sensitive to one color direction')
@@ -153,8 +159,8 @@ end
 
 function stim = MkStim(contrast, stimcc, phases, x)
      stim = zeros(size(stimcc,2),length(x),size(stimcc,1));
-     stim(:,:,1) = contrast*stimcc(1,:)'*sin(x+phases(1));
-     stim(:,:,2) = contrast*stimcc(2,:)'*sin(x+phases(2));
+     stim(:,:,1) = contrast*stimcc(1,:)'*cos(x+phases(1));
+     stim(:,:,2) = contrast*stimcc(2,:)'*cos(x+phases(2));
      stim = sum(stim,3);
 end
 
@@ -169,7 +175,7 @@ function response = SimResp(stim, RFs, whichmodel)
     if strcmp(whichmodel, 'ENERGY')
         response = sqrt(sum(tmp.^2));
     elseif strcmp(whichmodel, 'NONLINEARENERGY')
-        response = sqrt((abs(tmp(1))+abs(tmp(2)))^2+(abs(tmp(3))+abs(tmp(4)))^2);
+        response = (abs(tmp(1))+abs(tmp(2)))^2+(abs(tmp(3))+abs(tmp(4)))^2;
     else
         error('Unknown model type');
     end
@@ -177,3 +183,6 @@ function response = SimResp(stim, RFs, whichmodel)
         response = 200*response/(response+50);
     end
 end
+
+
+
