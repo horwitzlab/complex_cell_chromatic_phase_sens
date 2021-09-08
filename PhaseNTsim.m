@@ -9,10 +9,10 @@
 % is defined by set of three cone weights and a 1-D Gabor spatial weighting
 % function (time is not explictly simulated). Within each pair of linear
 % neurons, cone weights are identical, and RFs are in quadrature. The 
-% standard energy model of complex cells uses pair of linear neurons 
-% tat responsive to achromatic modulations. The innovation of the color
+% standard energy model of complex cells uses a pair of linear neurons 
+% that are responsive to achromatic modulations. The innovation of the color
 % energy model is the inclusion of a second pair of linear neurons, with 
-% quadrature RFs, that can be tuned for a different color direction.
+% quadrature-phase RFs, that can be tuned for a different color direction.
 %
 % The complex cell combines inputs according to an ENERGY calculation
 % (a^2+b^2+c^2+d^2) or an NONLINEARENERGY calculation ((a+c)^2+(b+d)^2)).
@@ -21,7 +21,7 @@
 % (a,c) have the same sign or if the achromatic and chromatic sine components
 % (b,d) have the same sign.
 %
-% If the NAKARUSHTON flag is set to true in nested function SimResp, the 
+% If the NAKARUSHTON flag is set to true in nested function, SimResp, the 
 % result of the energy calculation is passed through a Naka-Rushton function
 % before being returned. This feature is included to show that the 
 % isoresponse method is immune to static nonlinearities. 
@@ -39,7 +39,7 @@
 % is titrated to obtain the user-defined target firing rate (CRITFR).
 % These relative contrasts are fixed for the remainder of the experiment.
 %
-% Second, the two components from phase 1 are added in 0 and 180° phase 
+% Second, the two components from phase 1 are added in 0 and 180Â° phase 
 % to create two compound gratings (e.g. a bright-R/dark-G grating and a 
 % bright-G/dark-R grating).
 % The overall contrast of each compound grating is adjusted to find 
@@ -47,17 +47,14 @@
 % be identical in both directions. For example, an LN neuron would fail to
 % respond to one of these stimuli (stimulus modulations would cancel in 
 % one of the two phases). 
-% This step is needed to sample the isoresponse contour efficiently; 
-% we sample phases that are expected to be equidistant along the 
-% isoresponse contour next.
 %
 % Third, N phases are selected and isoresponse measurements are made for
-% stimuli with those phases. For an energy model cell the isoresponse points
+% stimuli with those phases. For an energy model cell, the isoresponse points
 % lie on a circle. For a linear neuron the line on lines (either horizontal
 % or vertical. For a neuron that is specialized for encoding in-phase
 % modulations of luminance and chromatic signals, the isoresponse contour
-% will be closer to the origin for the 0 and 180° phases than the 90 and
-% 270° phases.
+% will be closer to the origin for the 0 and 180Â° phases than the 90 and
+% 270Â° phases.
 %
 % Note, the predictions from the energy model hold for any
 % combination of cone weights and stimuli, provided the projections of 
@@ -116,7 +113,7 @@ for phase = phases
 end
 
 % Figuring out which phases to test based on the relative sensitivity to
-% the 0° and 180° phase-shifted stimuli.
+% the 0Â° and 180Â° phase-shifted stimuli.
 phases = linspace(0,pi,21);
 [x,y] = pol2cart(phases,1); % get a bunch of points on the unit circle
 x = x.*startingcontrasts(1); y = y.*startingcontrasts(2);
